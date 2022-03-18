@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.106" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/matchStartButton"
         android:layout_width="123dp"
         android:layout_height="55dp"
         android:layout_marginTop="564dp"
@@ -57,34 +57,34 @@
         app:layout_constraintVertical_bias="0.332" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/gameModeRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/matchStartButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardSizeInputField">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/simpleRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Simple" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/generalRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="General" />
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/gameModeTextHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Game Mode:"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintBottom_toTopOf="@+id/gameModeRadioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
