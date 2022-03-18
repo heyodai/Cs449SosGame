@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class UiController extends AppCompatActivity {
     private ClassMatch match;
@@ -16,6 +20,8 @@ public class UiController extends AppCompatActivity {
     }
 
     public boolean startMatch(View view) {
+        match = new ClassMatch();
+        
         EditText sizeInput = findViewById(R.id.boardSizeInputField);
         String temp = sizeInput.getText().toString();
         int value = 0;
@@ -23,12 +29,18 @@ public class UiController extends AppCompatActivity {
             value = Integer.parseInt(temp);
         }
 
-        match = new ClassMatch();
+        if (!match.isBoardSizeValid(value)) {
+            return false;
+        }
+
+
         match.start(value, EnumMode.SIMPLE);
         setContentView(R.layout.activity_match);
+
+        drawBoard(view);
         // BoardSizeDeclaration
-        TextView boardSizeDecl = (TextView)findViewById(R.id.BoardSizeDeclaration);
-        boardSizeDecl.setText("Board Size: " + value);
+//        TextView boardSizeDecl = (TextView)findViewById(R.id.BoardSizeDeclaration);
+//        boardSizeDecl.setText("Board Size: " + value);
 
         return true;
     }
@@ -58,5 +70,46 @@ public class UiController extends AppCompatActivity {
         // switch turn
         // update view
         return false;
+    }
+
+    public void drawBoard(View view) {
+        int size = match.getBoardSize();
+        TableLayout table = findViewById(R.id.boardLayoutArea);
+
+        // add rows and columns
+        for (int i = 0; i < size; i++) {
+            TableRow row = new TableRow(this);
+
+            for (int j = 0; j < size; j++) {
+                TextView square = new TextView(this);
+//                square.setId("squareX");
+                square.setMinWidth(70);
+                square.setMinHeight(70);
+
+                square.setText("/");
+                square.setTextSize(30);
+                square.setPadding(15, 5, 15, 5);
+//                square.setBackgroundResource(R.color.gray);
+                square.setBackgroundResource(R.drawable.textview_border);
+                square.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+
+                square.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        this.setText("O");
+                        TextView s = (TextView)findViewById(v.getId());
+//                        s.setText("O");
+                    }
+                });
+
+                row.addView(square);
+            }
+
+            table.addView(row);
+        }
+    }
+
+    public void clickSquare() {
+
     }
 }
