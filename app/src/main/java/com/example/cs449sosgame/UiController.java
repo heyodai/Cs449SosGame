@@ -1,5 +1,6 @@
 package com.example.cs449sosgame;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +31,7 @@ public class UiController extends AppCompatActivity {
         match.start(value, EnumMode.SIMPLE);
         setContentView(R.layout.activity_match);
         drawBoard(view);
+        swapActivePlayerLabel();
 
         return true;
     }
@@ -45,18 +48,8 @@ public class UiController extends AppCompatActivity {
         return true;
     }
 
-    public boolean changeInputLetter() {
-        // get current letter
-        // set player data
-        // update view
-        return false;
-    }
-
-//    @Override
-//    public void onClick(View view) {
     public View.OnClickListener selectTile(View view) {
         Button b = (Button)view;
-//        int squareNumber = Integer.parseInt(b.getTag().toString());
         int squareNumber = (Integer)view.getTag();
 
         if (match.isSquareFree(squareNumber)) {
@@ -66,7 +59,7 @@ public class UiController extends AppCompatActivity {
 
             String text = (inputLetter == EnumLetter.S ? "S" : "O");
             b.setText(text);
-            // update active player
+            swapActivePlayerLabel();
         }
 
         return null;
@@ -93,6 +86,25 @@ public class UiController extends AppCompatActivity {
             }
             table.addView(row);
         }
+    }
+
+    public void swapActivePlayerLabel() {
+        int activeId, inactiveId;
+
+        if (match.getCurrentActivePlayer() == EnumPlayer.BLUE) {
+            activeId = R.id.bluePlayerLabel;
+            inactiveId = R.id.redPlayerLabel;
+        }
+        else {
+            activeId = R.id.redPlayerLabel;
+            inactiveId = R.id.bluePlayerLabel;
+        }
+
+        TextView activePlayerElem = findViewById(activeId);
+        TextView inactivePlayerElem = findViewById(inactiveId);
+
+        activePlayerElem.setTextColor(Color.GREEN);
+        inactivePlayerElem.setTextColor(Color.BLACK);
     }
 
     public int getBoardSizeInput() {
