@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CS449SOSGame">
         <activity
-            android:name=".MainActivity"
+            android:name=".UiController"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
