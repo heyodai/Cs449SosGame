@@ -10,7 +10,7 @@ public class ClassBoard {
     protected EnumLetter[][] boardData;
 
     /**
-     * Class constructor. Build board array.
+     * Class constructor. Builds the board array.
      *
      * @param size Board size
      */
@@ -38,6 +38,13 @@ public class ClassBoard {
         }
     }
 
+    /**
+     * Retrieve board data for specified square.
+     *
+     * @param x Row for square to retrieve
+     * @param y Column for square to retrieve
+     * @return Enum for letter; default to null on failure
+     */
     public EnumLetter get(int x, int y) {
         return (x <= boardSize && y <= boardSize ? boardData[x][y] : EnumLetter.NULL);
     }
