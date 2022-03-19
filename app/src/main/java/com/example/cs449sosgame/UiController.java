@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -51,12 +52,23 @@ public class UiController extends AppCompatActivity {
         return false;
     }
 
+//    @Override
+//    public void onClick(View view) {
     public View.OnClickListener selectTile(View view) {
-        // get id
-        // check if valid
-        // place letter
-        // switch turn
-        // update view
+        Button b = (Button)view;
+//        int squareNumber = Integer.parseInt(b.getTag().toString());
+        int squareNumber = (Integer)view.getTag();
+
+        if (match.isSquareFree(squareNumber)) {
+            EnumPlayer player = match.getCurrentActivePlayer();
+            EnumLetter inputLetter = getLetterInput(player);
+            match.setSquare(squareNumber, inputLetter);
+
+            String text = (inputLetter == EnumLetter.S ? "S" : "O");
+            b.setText(text);
+            // update active player
+        }
+
         return null;
     }
 
@@ -70,10 +82,12 @@ public class UiController extends AppCompatActivity {
             TableRow row = new TableRow(this);
             for (int j = 0; j < size; j++) {
                 Button square = new Button(this);
+
                 square.setText(" ");
-//                square.setId(Integer.parseInt("square"+i+j));
                 square.setTag(squareCount);
-                square.setOnClickListener(selectTile(view));
+//                square.setOnClickListener(selectTile(null));
+                square.setOnClickListener(this::selectTile);
+
                 row.addView(square);
                 squareCount++;
             }
@@ -91,5 +105,11 @@ public class UiController extends AppCompatActivity {
         }
 
         return value;
+    }
+
+    public EnumLetter getLetterInput(EnumPlayer player) {
+        int buttonId = (player == EnumPlayer.BLUE ? R.id.blueSRadioButton : R.id.redSRadioButton);
+        RadioButton buttonElem = findViewById(buttonId);
+        return (buttonElem.isChecked() ? EnumLetter.S : EnumLetter.O);
     }
 }

@@ -16,6 +16,7 @@ public class ClassBoard {
      */
     public ClassBoard(int size) {
         boardSize = size;
+        boardData = new EnumLetter[size][size];
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -38,12 +39,6 @@ public class ClassBoard {
     }
 
     public EnumLetter get(int x, int y) {
-//        if (x <= boardSize && y <= boardSize) {
-//            return boardData[x][y];
-//        }
-//        else {
-//           return EnumLetter.NULL;
-//        }
         return (x <= boardSize && y <= boardSize ? boardData[x][y] : EnumLetter.NULL);
     }
 }
