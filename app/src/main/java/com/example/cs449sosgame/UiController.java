@@ -1,14 +1,13 @@
 package com.example.cs449sosgame;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class UiController extends AppCompatActivity {
     private ClassMatch match;
@@ -21,26 +20,14 @@ public class UiController extends AppCompatActivity {
 
     public boolean startMatch(View view) {
         match = new ClassMatch();
-        
-        EditText sizeInput = findViewById(R.id.boardSizeInputField);
-        String temp = sizeInput.getText().toString();
-        int value = 0;
-        if (!"".equals(temp)){
-            value = Integer.parseInt(temp);
-        }
-
+        int value = getBoardSizeInput();
         if (!match.isBoardSizeValid(value)) {
             return false;
         }
 
-
         match.start(value, EnumMode.SIMPLE);
         setContentView(R.layout.activity_match);
-
         drawBoard(view);
-        // BoardSizeDeclaration
-//        TextView boardSizeDecl = (TextView)findViewById(R.id.BoardSizeDeclaration);
-//        boardSizeDecl.setText("Board Size: " + value);
 
         return true;
     }
@@ -64,52 +51,45 @@ public class UiController extends AppCompatActivity {
         return false;
     }
 
-    public boolean selectTile(int x, int y) {
+    public View.OnClickListener selectTile(View view) {
+        // get id
         // check if valid
         // place letter
         // switch turn
         // update view
-        return false;
+        return null;
     }
 
     public void drawBoard(View view) {
         int size = match.getBoardSize();
+        int squareCount = 0;
         TableLayout table = findViewById(R.id.boardLayoutArea);
 
         // add rows and columns
         for (int i = 0; i < size; i++) {
             TableRow row = new TableRow(this);
-
             for (int j = 0; j < size; j++) {
-                TextView square = new TextView(this);
-//                square.setId("squareX");
-                square.setMinWidth(70);
-                square.setMinHeight(70);
-
-                square.setText("/");
-                square.setTextSize(30);
-                square.setPadding(15, 5, 15, 5);
-//                square.setBackgroundResource(R.color.gray);
-                square.setBackgroundResource(R.drawable.textview_border);
-                square.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-
-                square.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        this.setText("O");
-                        TextView s = (TextView)findViewById(v.getId());
-//                        s.setText("O");
-                    }
-                });
-
+                Button square = new Button(this);
+                square.setText(" ");
+//                square.setId(Integer.parseInt("square"+i+j));
+                square.setTag(squareCount);
+                square.setOnClickListener(selectTile(view));
                 row.addView(square);
+                squareCount++;
             }
-
             table.addView(row);
         }
     }
 
-    public void clickSquare() {
+    public int getBoardSizeInput() {
+        int value = 0;
 
+        EditText sizeInput = findViewById(R.id.boardSizeInputField);
+        String temp = sizeInput.getText().toString();
+        if (!"".equals(temp)){ // field is not empty
+            value = Integer.parseInt(temp);
+        }
+
+        return value;
     }
 }
