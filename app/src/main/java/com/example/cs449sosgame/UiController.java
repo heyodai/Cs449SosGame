@@ -12,15 +12,32 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Class definition for UI controller.
+ * Main app activity.
+ *
+ * @author Odai Athamneh
+ */
 public class UiController extends AppCompatActivity {
     private ClassMatch match;
 
+    /**
+     * Override the default onCreate method to set custom view.
+     * @param savedInstanceState Saved state for app
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
     }
 
+    /**
+     * Start match and update app view.
+     * Will return FALSE if match parameters are invalid.
+     *
+     * @param view Current on-screen app view.
+     * @return TRUE if match started successfully, FALSE if not
+     */
     public boolean startMatch(View view) {
         match = new ClassMatch();
         int value = getBoardSizeInput();
@@ -39,8 +56,8 @@ public class UiController extends AppCompatActivity {
     /**
      * End the match when player hits "New Game" button.
      *
-     * @param {View} view - The current view object on device screen.
-     * @return {bool} - TRUE if match successfully reset, FALSE otherwise.
+     * @param view The current view object on device screen
+     * @return TRUE if match successfully reset, FALSE otherwise
      */
     public boolean endMatch(View view) {
         setContentView(R.layout.activity_setup);
@@ -48,11 +65,17 @@ public class UiController extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * onClick listener for when a board square is clicked.
+     *
+     * @param view View object for invoking button
+     * @return Always returns null
+     */
     public View.OnClickListener selectTile(View view) {
         Button b = (Button)view;
         int squareNumber = (Integer)view.getTag();
 
-        if (match.isSquareFree(squareNumber)) {
+        if (match.isSquareEmpty(squareNumber)) {
             EnumPlayer player = match.getCurrentActivePlayer();
             EnumLetter inputLetter = getLetterInput(player);
             match.setSquare(squareNumber, inputLetter);
@@ -65,12 +88,16 @@ public class UiController extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Draw SOS board on the screen.
+     *
+     * @param view Current on-screen app view
+     */
     public void drawBoard(View view) {
         int size = match.getBoardSize();
         int squareCount = 0;
         TableLayout table = findViewById(R.id.boardLayoutArea);
 
-        // add rows and columns
         for (int i = 0; i < size; i++) {
             TableRow row = new TableRow(this);
             for (int j = 0; j < size; j++) {
@@ -78,7 +105,6 @@ public class UiController extends AppCompatActivity {
 
                 square.setText(" ");
                 square.setTag(squareCount);
-//                square.setOnClickListener(selectTile(null));
                 square.setOnClickListener(this::selectTile);
 
                 row.addView(square);
@@ -88,6 +114,10 @@ public class UiController extends AppCompatActivity {
         }
     }
 
+    /**
+     * Swap which player is highlighted green to indicate active status.
+     * Function determines active player internally.
+     */
     public void swapActivePlayerLabel() {
         int activeId, inactiveId;
 
@@ -107,6 +137,11 @@ public class UiController extends AppCompatActivity {
         inactivePlayerElem.setTextColor(Color.BLACK);
     }
 
+    /**
+     * Get user input for board size. Defaults to zero.
+     *
+     * @return Size for board provided by user
+     */
     public int getBoardSizeInput() {
         int value = 0;
 
@@ -119,6 +154,12 @@ public class UiController extends AppCompatActivity {
         return value;
     }
 
+    /**
+     * Get currently selected letter for requested player.
+     *
+     * @param player The player to check letter selection for
+     * @return Letter that user has selected
+     */
     public EnumLetter getLetterInput(EnumPlayer player) {
         int buttonId = (player == EnumPlayer.BLUE ? R.id.blueSRadioButton : R.id.redSRadioButton);
         RadioButton buttonElem = findViewById(buttonId);

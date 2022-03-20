@@ -1,7 +1,7 @@
 package com.example.cs449sosgame;
 
 /**
- * Class definition for board data.
+ * Class definition for board object.
  *
  * @author Odai Athamneh
  */
@@ -47,5 +47,13 @@ public class ClassBoard {
      */
     public EnumLetter get(int x, int y) {
         return (x <= boardSize && y <= boardSize ? boardData[x][y] : EnumLetter.NULL);
+    }
+
+    /**
+     * Getter for board size property.
+     * @return Board size
+     */
+    public int getBoardSize() {
+        return boardSize;
     }
 }
