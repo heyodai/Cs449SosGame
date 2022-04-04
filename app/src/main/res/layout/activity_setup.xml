@@ -10,6 +10,8 @@
         android:id="@+id/gameNameBanner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleX="3"
+        android:scaleY="3"
         android:text="SOS Game Setup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

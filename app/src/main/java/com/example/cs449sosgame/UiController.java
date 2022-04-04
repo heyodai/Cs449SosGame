@@ -75,15 +75,18 @@ public class UiController extends AppCompatActivity {
         Button b = (Button)view;
         int squareNumber = (Integer)view.getTag();
 
-        if (match.isSquareEmpty(squareNumber)) {
-            EnumPlayer player = match.getCurrentActivePlayer();
-            EnumLetter inputLetter = getLetterInput(player);
-            match.setSquare(squareNumber, inputLetter);
-
-            String text = (inputLetter == EnumLetter.S ? "S" : "O");
-            b.setText(text);
-            swapActivePlayerLabel();
+        if (!match.isSquareEmpty(squareNumber)) {
+            // square is occupied, so end the function here
+            return null;
         }
+
+        EnumPlayer player = match.getCurrentActivePlayer();
+        EnumLetter inputLetter = getLetterInput(player);
+        match.setSquare(squareNumber, inputLetter);
+
+        String text = (inputLetter == EnumLetter.S ? "S" : "O");
+        b.setText(text);
+        swapActivePlayerLabel();
 
         return null;
     }
@@ -94,18 +97,28 @@ public class UiController extends AppCompatActivity {
      * @param view Current on-screen app view
      */
     public void drawBoard(View view) {
-        int size = match.getBoardSize();
+        int numSquares = match.getBoardSize();
         int squareCount = 0;
+
+        int boardAreaSize = 1000;
+        int buttonSize = Math.round(boardAreaSize / numSquares);
+
         TableLayout table = findViewById(R.id.boardLayoutArea);
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < numSquares; i++) {
             TableRow row = new TableRow(this);
-            for (int j = 0; j < size; j++) {
+            for (int j = 0; j < numSquares; j++) {
                 Button square = new Button(this);
 
                 square.setText(" ");
                 square.setTag(squareCount);
                 square.setOnClickListener(this::selectTile);
+
+                square.setMinimumHeight(buttonSize);
+                square.setHeight(buttonSize);
+                square.setMinimumWidth(buttonSize);
+                square.setWidth(buttonSize);
+                square.setTextSize(90 - (numSquares * 10));
 
                 row.addView(square);
                 squareCount++;
